@@ -19,7 +19,7 @@ export const Block = ({ value, currency, onChangeValue, onChangeCurrency }) => (
           <polygon points="47.25,15 45.164,12.914 25,33.078 4.836,12.914 2.75,15 25,37.25 " />
         </svg>
       </li>
-    </ul>
+    </ul> 
     <input
       onChange={(e) => onChangeValue(e.target.value)}
       value={value}
