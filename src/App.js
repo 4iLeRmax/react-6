@@ -9,6 +9,7 @@ function App() {
   const [users, setUsers] = useState([]);
   const [invites, setInvites] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [success, setSuccess] = useState(false);
   const [searchValue, setSearchValue] = useState('');
 
   useEffect(() => {
@@ -28,25 +29,36 @@ function App() {
     setSearchValue(e.target.value);
   }
 
-  const onClickInvite = (id)=>{
-    if(invites.includes(id)){
-      setInvites(prev=> prev.filter(_id=> _id !== id));
-    }else{
-      setInvites(prev=> [...prev, id])
+  const onClickInvite = (id) => {
+    if (invites.includes(id)) {
+      setInvites(invites => invites.filter(_id => _id !== id));
+    } else {
+      setInvites(prev => [...prev, id])
     }
+  }
+
+  const onClickSetInvites = () => {
+    // setSuccess(true);
+    success ? setSuccess(false) : setSuccess(true);
   }
 
   return (
     <div className="App">
-      <Users 
-        searchValue={searchValue}
-        onChangeSearchValue={onChangeSearchValue} 
-        items={users} 
-        isLoading={isLoading}
-        invites={invites}
-        onClickInvite={onClickInvite}
-      />
-      {/* <Success /> */}
+      {success ? <Success
+        count={invites.length}
+        onClickSetInvites={onClickSetInvites}
+      /> : (
+        <Users
+          searchValue={searchValue}
+          onChangeSearchValue={onChangeSearchValue}
+          items={users}
+          isLoading={isLoading}
+
+          invites={invites}
+          onClickInvite={onClickInvite}
+          onClickSetInvites={onClickSetInvites}
+        />
+      )}
     </div>
   );
 }
