@@ -5,8 +5,8 @@ import './index.scss';
 function App() {
   const [rates, setRates] = useState([]);
 
-  const [fromCurrency, setFromCurrency] = useState('RUB');
-  const [toCurrency, setToCurrency] = useState('USD');
+  const [fromCurrency, setFromCurrency] = useState('USD');
+  const [toCurrency, setToCurrency] = useState('UAH');
 
   const [fromPrice, setFromPrice] = useState(0);
   const [toPrice, setToPrice] = useState(0);
@@ -20,7 +20,8 @@ function App() {
           for (let i = 0; i < json.length; i++) {
             a[json[i].cc] = json[i].rate
           }
-          console.log(a);
+          // console.log(a);
+          a['UAH'] = 1;
           setRates(a);
         })
         .catch(err => {
@@ -30,23 +31,19 @@ function App() {
     })();
   }, []);
 
+  console.log(rates);
+
   const onChangeFromPrice = value => {
     setFromPrice(value);
-    // const price = value / rates[toCurrency];
-    // const res = (Math.round(price * rates[fromCurrency]*1000))/1000;
     const price = rates[fromCurrency] / rates[toCurrency];
-    const res = Math.round(price * value * 10000) / 10000;
+    let res = Math.round(price * value * 10000) / 10000;
     setToPrice(res);
   }
 
   const onChangeToPrice = value => {
     setToPrice(value);
-
-    // const price = value / rates[fromCurrency];
-    // const res = (Math.round(price * rates[toCurrency]*1000))/1000;
-
     const price = rates[toCurrency] / rates[fromCurrency];
-    const res = Math.round(price * value * 10000) / 10000;
+    let res = Math.round(price * value * 10000) / 10000;
     setFromPrice(res);
   }
 
