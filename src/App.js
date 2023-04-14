@@ -16,11 +16,8 @@ function App() {
       await fetch('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json')
         .then(res => res.json())
         .then(json => {
-          // setRates(json);
-          // console.log(json);
           let a = {};
-          for(let i=0; i<json.length; i++){
-            // console.log(json[i]);
+          for (let i = 0; i < json.length; i++) {
             a[json[i].cc] = json[i].rate
           }
           console.log(a);
@@ -35,11 +32,10 @@ function App() {
 
   const onChangeFromPrice = value => {
     setFromPrice(value);
-
     // const price = value / rates[toCurrency];
     // const res = (Math.round(price * rates[fromCurrency]*1000))/1000;
     const price = rates[fromCurrency] / rates[toCurrency];
-    const res = Math.round(price * value * 1000) /1000;
+    const res = Math.round(price * value * 10000) / 10000;
     setToPrice(res);
   }
 
@@ -50,16 +46,24 @@ function App() {
     // const res = (Math.round(price * rates[toCurrency]*1000))/1000;
 
     const price = rates[toCurrency] / rates[fromCurrency];
-    const res = Math.round(price * value * 1000) /1000;
+    const res = Math.round(price * value * 10000) / 10000;
     setFromPrice(res);
   }
+
+  useEffect(() => {
+    onChangeFromPrice(fromPrice);
+  }, [fromCurrency]);
+
+  useEffect(() => {
+    onChangeToPrice(toPrice);
+  }, [toCurrency]);
 
   return (
     <div className="App">
       <Block
         value={fromPrice}
         currency={fromCurrency}
-        onChangeValue={onChangeFromPrice}
+        onChangeValue={onChangeFromPrice} 
         onChangeCurrency={setFromCurrency}
       />
       <Block
