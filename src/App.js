@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import json from './data.json';
 
 import Collection from './Collection';
+import { Skeleton } from './ContentLoader';
 
 import './index.scss';
 
@@ -29,8 +30,8 @@ function App() {
     }, 1000);
   }, [categoryId]);
 
-  useEffect(()=>{
-    
+  useEffect(() => {
+
   }, [page]);
 
   return (
@@ -55,37 +56,47 @@ function App() {
       </div>
       <div className="content">
         {isLoading ? (
-          <div className="loading">
-            <h2>Loading<span className="dot-1">.</span><span className="dot-2">.</span><span className="dot-3">.</span></h2>
-          </div>
+          // <div className="loading">
+          //   <h2>Loading<span className="dot-1">.</span><span className="dot-2">.</span><span className="dot-3">.</span></h2>
+          // </div>
+          <>
+            <Skeleton />
+            <Skeleton />
+            <Skeleton />
+            <Skeleton />
+            <Skeleton />
+          </>
         ) : (
           colections
-          .filter(item =>
-            (item.name).toLowerCase().includes(searchValue.toLowerCase())
-          )
-          .filter(item => {
-            if (item.category === categoryId) return true;
-            if (categoryId === 0) return true;
-          })
-          .map((item, index) =>
-            <Collection
-              key={index}
-              name={item.name}
-              images={item.photos}
-            />
-          )
+            .filter(item =>
+              (item.name).toLowerCase().includes(searchValue.toLowerCase())
+            )
+            .filter(item => {
+              if (item.category === categoryId) return true;
+              if (categoryId === 0) return true;
+            })
+            .map((item, index) =>
+              <>
+                <Collection
+                  key={index}
+                  name={item.name}
+                  images={item.photos}
+                />
+
+              </>
+            )
         )}
       </div>
       <ul className="pagination">
-          {
-            [...Array(5)].map((_, index)=> (
-              <li 
-                key={index}
-                className={page === index + 1 ? 'active' : ''}
-                onClick={()=> setPage(index + 1)}
-              >{index+1}</li>
-            ))
-          }
+        {
+          [...Array(5)].map((_, index) => (
+            <li
+              key={index}
+              className={page === index + 1 ? 'active' : ''}
+              onClick={() => setPage(index + 1)}
+            >{index + 1}</li>
+          ))
+        }
       </ul>
     </div>
   );
