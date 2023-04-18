@@ -30,9 +30,6 @@ function App() {
     }, 1000);
   }, [categoryId]);
 
-  useEffect(() => {
-
-  }, [page]);
 
   return (
     <div className="App">
